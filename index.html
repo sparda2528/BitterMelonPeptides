@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>苦瓜胜肽｜天然複方膠囊</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&amp;family=Playfair+Display:wght@700&amp;display=swap');
+        
+        :root {
+            --primary: #10b981;
+        }
+        
+        .tail-container {
+            font-family: 'Noto Sans TC', system-ui, sans-serif;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)), 
+                        url('https://picsum.photos/id/1015/2000/1200') center/cover no-repeat;
+        }
+        
+        .section-title {
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, #10b981, #34d399);
+            border-radius: 9999px;
+        }
+        
+        .capsule {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .capsule:hover {
+            transform: scale(1.08) rotate(8deg);
+        }
+        
+        .ingredient-card {
+            transition: all 0.3s ease;
+        }
+        
+        .ingredient-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgb(16 185 129);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #10b981;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #10b981, #34d399);
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="tail-container bg-gray-50 text-gray-800 overflow-x-hidden">
+    <!-- 進度條 -->
+    <div id="progress-bar" class="scroll-progress w-0"></div>
+
+    <!-- 導航列 -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex items-center justify-center shadow-inner">
+                        <span class="text-white text-3xl leading-none">🥬</span>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-bold text-emerald-700 tracking-wider">苦瓜胜肽</span>
+                    </div>
+                </div>
+
+                <!-- 桌面選單 -->
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                    <a href="#hero" class="nav-link text-gray-700 hover:text-emerald-600 transition">首頁</a>
+                    <a href="#intro" class="nav-link text-gray-700 hover:text-emerald-600 transition">產品介紹</a>
+                    <a href="#ingredients" class="nav-link text-gray-700 hover:text-emerald-600 transition">成分解析</a>
+                    <a href="#usage" class="nav-link text-gray-700 hover:text-emerald-600 transition">食用方式</a>
+                    <a href="#cta" class="nav-link text-gray-700 hover:text-emerald-600 transition">立即購買</a>
+                </div>
+
+                <!-- 右側按鈕 -->
+                <div class="flex items-center gap-4">
+                    <button onclick="addToCart()" 
+                            class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-3xl flex items-center gap-2 transition shadow-md">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>加入購物車</span>
+                    </button>
+                    
+                    <!-- 漢堡選單 -->
+                    <button id="mobile-menu-btn"
+                            class="md:hidden w-10 h-10 flex items-center justify-center text-2xl text-emerald-700">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 手機選單 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-6 py-8 flex flex-col gap-6 text-lg font-medium">
+                <a href="#hero" onclick="toggleMobileMenu()" class="block py-2 text-gray-700">首頁</a>
+                <a href="#intro" onclick="toggleMobileMenu()" class="block py-2 text-gray-700">產品介紹</a>
+                <a href="#ingredients" onclick="toggleMobileMenu()" class="block py-2 text-gray-700">成分解析</a>
+                <a href="#usage" onclick="toggleMobileMenu()" class="block py-2 text-gray-700">食用方式</a>
+                <a href="#cta" onclick="toggleMobileMenu()" class="block py-2 text-gray-700">立即購買</a>
+                
+                <div class="pt-6 border-t">
+                    <button onclick="addToCart();toggleMobileMenu()" 
+                            class="w-full py-4 bg-emerald-600 text-white rounded-3xl font-medium flex items-center justify-center gap-3">
+                        <i class="fas fa-shopping-cart"></i>
+                        加入購物車
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" class="hero-bg h-screen flex items-center relative">
+        <div class="max-w-5xl mx-auto px-6 text-center text-white">
+            <div class="max-w-2xl mx-auto">
+                <!-- 產品膠囊展示 -->
+                <div class="flex justify-center mb-8">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/201/420/180" 
+                             alt="苦瓜胜肽膠囊" 
+                             class="capsule w-[420px] drop-shadow-2xl">
+                        <div class="absolute -top-6 -right-6 bg-white text-emerald-700 text-xs font-bold px-5 py-2 rounded-3xl shadow-xl rotate-12">
+                            每日2顆
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="text-6xl md:text-7xl font-bold leading-none mb-4 tracking-tighter" 
+                    style="font-family: 'Playfair Display', serif;">
+                    苦瓜胜肽
+                </h1>
+                <p class="text-2xl md:text-3xl text-emerald-200 font-light mb-8">複方膠囊 • 天然植物萃取</p>
+                
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                    <a href="#intro" 
+                       class="px-10 py-5 bg-white text-emerald-700 hover:bg-emerald-50 text-lg font-semibold rounded-3xl transition flex items-center gap-3 shadow-xl">
+                        了解產品
+                        <i class="fas fa-arrow-down"></i>
+                    </a>
+                    
+                    <a href="#cta" 
+                       onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})"
+                       class="px-10 py-5 bg-transparent border-2 border-white hover:bg-white hover:text-emerald-700 text-lg font-semibold rounded-3xl transition">
+                        立即訂購
+                    </a>
+                </div>
+
+                <div class="mt-16 flex justify-center gap-10 text-sm">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-leaf text-2xl text-emerald-300"></i>
+                        <div>
+                            <div class="font-medium">100% 天然</div>
+                            <div class="text-emerald-200 text-xs">無添加</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-capsules text-2xl text-emerald-300"></i>
+                        <div>
+                            <div class="font-medium">膠囊型</div>
+                            <div class="text-emerald-200 text-xs">方便服用</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 向下箭頭 -->
+        <div class="absolute bottom-10 left-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-4xl text-white/70"></i>
+        </div>
+    </section>
+
+    <!-- 產品介紹 -->
+    <section id="intro" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-6 py-2 rounded-3xl text-sm font-medium mb-6">
+                        <i class="fas fa-award"></i>
+                        台灣嚴選原料
+                    </div>
+                    <h2 class="section-title text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                        來自大自然的<br>健康守護力
+                    </h2>
+                    <div class="prose prose-lg text-gray-600">
+                        <p class="mb-6">
+                            苦瓜胜肽複方膠囊精選苦瓜胜肽、西伯利亞人蔘、桑葉萃取物與玉米澱粉，採用先進萃取技術濃縮而成。每瓶60顆，30天份量，適合注重日常健康的您。
+                        </p>
+                        <p>
+                            純植物來源、無化學添加，膠囊外殼使用植物性材質，易於吸收。
+                        </p>
+                    </div>
+                    
+                    <div class="mt-12 flex items-center gap-8">
+                        <div>
+                            <div class="text-4xl font-bold text-emerald-600">60</div>
+                            <div class="text-sm text-gray-500">顆/瓶</div>
+                        </div>
+                        <div class="h-12 w-px bg-gray-200"></div>
+                        <div>
+                            <div class="text-4xl font-bold text-emerald-600">30</div>
+                            <div class="text-sm text-gray-500">天份量</div>
+                        </div>
+                        <div class="h-12 w-px bg-gray-200"></div>
+                        <div class="text-emerald-600">
+                            <i class="fas fa-shield-alt text-5xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右側產品圖 -->
+                <div class="relative">
+                    <div class="bg-emerald-50 rounded-3xl p-8 shadow-inner">
+                        <img src="https://picsum.photos/id/29/800/620" 
+                             alt="苦瓜胜肽膠囊瓶裝" 
+                             class="rounded-3xl shadow-2xl mx-auto">
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-xl max-w-[220px]">
+                        <div class="flex items-center gap-4">
+                            <div class="text-5xl">🌿</div>
+                            <div>
+                                <div class="font-semibold text-lg">苦瓜胜肽</div>
+                                <div class="text-emerald-600 text-sm">核心活性成分</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成分解析 -->
+    <section id="ingredients" class="py-24 bg-emerald-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="px-5 py-2 bg-white text-emerald-700 rounded-3xl text-xs font-bold tracking-widest">PURE INGREDIENTS</span>
+                <h2 class="section-title text-5xl font-bold mt-6">四大黃金成分</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- 成分1 -->
+                <div class="ingredient-card bg-white rounded-3xl p-8 text-center shadow">
+                    <div class="w-20 h-20 mx-auto bg-orange-100 rounded-2xl flex items-center justify-center text-5xl mb-6">🥒</div>
+                    <h3 class="font-bold text-2xl mb-2">苦瓜胜肽</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">苦瓜精華萃取的珍貴胜肽，核心活性成分</p>
+                </div>
+                
+                <!-- 成分2 -->
+                <div class="ingredient-card bg-white rounded-3xl p-8 text-center shadow">
+                    <div class="w-20 h-20 mx-auto bg-blue-100 rounded-2xl flex items-center justify-center text-5xl mb-6">🌲</div>
+                    <h3 class="font-bold text-2xl mb-2">西伯利亞人蔘</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">提升活力與適應力，傳統珍貴補品</p>
+                </div>
+                
+                <!-- 成分3 -->
+                <div class="ingredient-card bg-white rounded-3xl p-8 text-center shadow">
+                    <div class="w-20 h-20 mx-auto bg-green-100 rounded-2xl flex items-center justify-center text-5xl mb-6">🍃</div>
+                    <h3 class="font-bold text-2xl mb-2">桑葉萃取物</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">天然植物萃取，支持日常平衡</p>
+                </div>
+                
+                <!-- 成分4 -->
+                <div class="ingredient-card bg-white rounded-3xl p-8 text-center shadow">
+                    <div class="w-20 h-20 mx-auto bg-amber-100 rounded-2xl flex items-center justify-center text-5xl mb-6">🌽</div>
+                    <h3 class="font-bold text-2xl mb-2">玉米澱粉</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">優質天然填充劑，確保膠囊穩定</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 text-xs text-gray-400 flex items-center justify-center gap-2">
+                <i class="fas fa-check-circle"></i>
+                所有成分均通過台灣食藥署原料檢驗
+            </div>
+        </div>
+    </section>
+
+    <!-- 使用方式 -->
+    <section id="usage" class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title text-5xl font-bold">簡單食用方式</h2>
+                <p class="mt-4 text-xl text-gray-600">一天只要兩顆，輕鬆融入生活</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-24 h-24 mx-auto bg-emerald-100 rounded-full flex items-center justify-center text-6xl mb-8 shadow-inner">☀️</div>
+                    <div class="text-2xl font-bold mb-2">中午飯前</div>
+                    <div class="text-emerald-600 font-medium">1 顆</div>
+                    <p class="text-sm text-gray-500 mt-6">飯前30分鐘空腹服用<br>幫助吸收</p>
+                </div>
+                
+                <div class="relative">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block">
+                        <div class="text-8xl text-emerald-300">→</div>
+                    </div>
+                    <div class="w-24 h-24 mx-auto bg-emerald-700 text-white rounded-full flex items-center justify-center text-6xl mb-8 shadow-inner">📦</div>
+                    <div class="text-center">
+                        <div class="inline-flex items-center gap-4 bg-emerald-600 text-white text-2xl font-bold px-10 py-4 rounded-3xl">
+                            <span>2</span>
+                            <span class="text-base font-normal">顆/天</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-24 h-24 mx-auto bg-emerald-100 rounded-full flex items-center justify-center text-6xl mb-8 shadow-inner">🌙</div>
+                    <div class="text-2xl font-bold mb-2">晚餐後</div>
+                    <div class="text-emerald-600 font-medium">1 顆</div>
+                    <p class="text-sm text-gray-500 mt-6">晚餐後30分鐘服用<br>幫助消化吸收</p>
+                </div>
+            </div>
+            
+            <div class="mt-16 bg-emerald-50 rounded-3xl p-8 text-center max-w-md mx-auto">
+                <div class="flex justify-center gap-3 text-4xl mb-4">
+                    <span>🥬</span>
+                    <span class="text-emerald-400">+</span>
+                    <span>🌿</span>
+                </div>
+                <p class="font-medium text-emerald-700">建議搭配溫開水服用<br>效果更佳！</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 購買 CTA -->
+    <section id="cta" class="py-28 bg-gradient-to-br from-emerald-700 to-emerald-900 text-white">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <div class="inline px-8 py-3 bg-white/20 backdrop-blur-md rounded-3xl text-sm font-medium mb-6">限時優惠中</div>
+            
+            <h2 class="text-5xl font-bold mb-4">現在開始你的健康旅程</h2>
+            <p class="text-xl text-emerald-200 mb-10">一瓶只要 <span class="text-6xl font-bold text-white">NT$ 890</span></p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <button onclick="buyNow()" 
+                        class="px-14 py-6 bg-white text-emerald-700 hover:scale-105 font-semibold text-2xl rounded-3xl transition-all shadow-2xl flex items-center gap-4">
+                    <i class="fas fa-credit-card"></i>
+                    立即購買
+                </button>
+                
+                <div onclick="addToCart()" 
+                     class="cursor-pointer border-2 border-white/60 hover:border-white px-8 py-6 rounded-3xl flex items-center gap-3 transition">
+                    <i class="fas fa-cart-plus text-3xl"></i>
+                    <div>
+                        <div class="text-sm opacity-75">加入購物車</div>
+                        <div class="font-medium">60顆 / 30天</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-xs text-emerald-300 flex items-center justify-center gap-8">
+                <div>✅ 7天鑑賞期</div>
+                <div>✅ 台灣宅配免運</div>
+                <div>✅ 食安認證</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-16">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-10">
+                <div>
+                    <div class="flex items-center gap-3 text-white mb-6">
+                        <div class="w-9 h-9 bg-emerald-600 rounded-2xl flex items-center justify-center text-3xl">🥬</div>
+                        <span class="text-2xl font-bold">苦瓜胜肽</span>
+                    </div>
+                    <p class="text-sm leading-relaxed">天然植物複方膠囊<br>讓健康變得簡單</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-medium mb-4">聯絡我們</h4>
+                    <div class="space-y-2 text-sm">
+                        <div>客服專線：0800-123-456</div>
+                        <div>Line ID：@kuguapeptide</div>
+                        <div>地址：台南市東區健康路88號</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-medium mb-4">關注我們</h4>
+                    <div class="flex gap-6 text-2xl">
+                        <i class="fab fa-facebook hover:text-white cursor-pointer"></i>
+                        <i class="fab fa-instagram hover:text-white cursor-pointer"></i>
+                        <i class="fab fa-line hover:text-white cursor-pointer"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-16 pt-8 text-xs flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>© 2026 苦瓜胜肽健康科技 All Rights Reserved.</div>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-white">隱私政策</a>
+                    <a href="#" class="hover:text-white">使用條款</a>
+                </div>
+                <div class="text-emerald-500 text-[10px]">純植物 • 安心選擇</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 成功提示 -->
+    <div id="toast" class="hidden fixed bottom-8 right-8 bg-emerald-700 text-white px-8 py-4 rounded-3xl shadow-2xl flex items-center gap-3">
+        <i class="fas fa-check-circle text-2xl"></i>
+        <span id="toast-text" class="font-medium">已加入購物車！</span>
+    </div>
+
+    <script>
+        // Tailwind 設定
+        function initTailwind() {
+            // 直接使用 Tailwind 預設樣式即可
+        }
+
+        // 進度條
+        function updateProgressBar() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        }
+
+        // 手機選單
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // 加入購物車
+        function addToCart() {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            toastText.textContent = '已加入購物車！';
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 2800);
+        }
+
+        // 立即購買
+        function buyNow() {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            toastText.textContent = '訂單已成立！感謝您的購買 ❤️';
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 3200);
+            
+            // 模擬跳轉
+            setTimeout(() => {
+                alert('感謝您的訂購！\n\n（這是示範網站，實際付款請洽客服）');
+            }, 800);
+        }
+
+        // 平滑滾動
+        function smoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if (this.getAttribute('href') === '#') return;
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const target = document.getElementById(targetId);
+                    
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // 初始化所有功能
+        function initialize() {
+            initTailwind();
+            window.addEventListener('scroll', updateProgressBar);
+            
+            // 手機選單按鈕
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            mobileBtn.addEventListener('click', toggleMobileMenu);
+            
+            // 鍵盤 ESC 關閉手機選單
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "Escape") {
+                    const menu = document.getElementById('mobile-menu');
+                    if (!menu.classList.contains('hidden')) {
+                        menu.classList.add('hidden');
+                    }
+                }
+            });
+            
+            smoothScroll();
+            
+            // 初始進度條
+            updateProgressBar();
+            
+            // 讓膠囊有輕微浮動動畫
+            console.log('%c苦瓜胜肽網站已成功載入！🎉', 'color:#10b981; font-size:13px; font-family:monospace');
+        }
+
+        // 頁面載入完成後執行
+        window.onload = initialize;
+    </script>
+</body>
+</html>
